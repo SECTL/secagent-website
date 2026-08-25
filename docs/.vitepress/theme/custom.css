@@ -65,11 +65,16 @@
 }
 
 .VPHero .text .hero-gradient-purple {
-  background: linear-gradient(120deg, #8b5cf6 12%, #c084fc 54%, #f0abfc 92%);
+  display: inline-block;
+  background-image: linear-gradient(120deg, #8b5cf6 12%, #c084fc 54%, #f0abfc 92%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   -webkit-background-clip: text;
   background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
 }
 
 .VPHero .tagline {
