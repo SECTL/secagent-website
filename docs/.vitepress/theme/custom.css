@@ -206,8 +206,8 @@
 
 .VPHomeFeatures .VPFeature .title {
   margin: 0;
-  font-size: 1.1rem;
-  line-height: 1.3;
+  font-size: 1.35rem;
+  line-height: 1.35;
 }
 
 .VPHomeFeatures .VPFeature .details {
@@ -216,8 +216,8 @@
   margin: 5px 0 0;
   padding: 0;
   color: var(--vp-c-text-2);
-  font-size: 0.92rem;
-  line-height: 1.55;
+  font-size: 1.05rem;
+  line-height: 1.65;
 }
 
 .VPHomeFeatures .feature-prompts {
@@ -236,7 +236,7 @@
   display: block;
   margin-top: 2px;
   color: var(--vp-c-text-2);
-  font-size: 0.82rem;
+  font-size: 0.94rem;
 }
 
 @media (min-width: 768px) {
