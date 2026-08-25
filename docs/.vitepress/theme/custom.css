@@ -240,14 +240,16 @@
 }
 
 @media (min-width: 768px) {
-  .VPHomeFeatures .items > .item {
-    width: 48%;
-    align-self: flex-start;
+  .VPHomeFeatures .items {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 24px;
   }
 
-  .VPHomeFeatures .items > .item:nth-child(even) {
-    align-self: flex-end;
-    margin-top: -48px;
+  .VPHomeFeatures .items > .item {
+    width: 100%;
+    align-self: stretch;
+    margin-top: 0;
   }
 }
 
