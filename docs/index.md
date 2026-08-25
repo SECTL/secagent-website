@@ -15,16 +15,16 @@ hero:
       text: 开始使用
       link: /guide/quickstart
 features:
-  - icon: '<span class="feature-icon-pair"><img src="/classisland-icon.png" alt="ClassIsland" /><img src="/cw-icon.png" alt="Class Widgets" /></span>'
+  - icon: '<span class="feature-icon-pair"><img src="./classisland-icon.png" alt="ClassIsland" /><img src="./cw-icon.png" alt="Class Widgets" /></span>'
     title: 课表软件联动
     details: '<span class="feature-prompts"><span>“明天数学课跟音乐课换了”</span><span>“下节课是啥”</span></span>'
-  - icon: '<img class="feature-icon-single" src="/iccce-logo.png" alt="ICC-CE" />'
+  - icon: '<img class="feature-icon-single" src="./iccce-logo.png" alt="ICC-CE" />'
     title: 批注画板操作
     details: '<span class="feature-prompts"><span>“将杜甫的基本信息插入画板”</span><span>“将圆柱和圆锥的面积公式插入画板”</span></span>'
-  - icon: '<img class="feature-icon-single" src="/secrandom-logo.png" alt="SecRandom" />'
+  - icon: '<img class="feature-icon-single" src="./secrandom-logo.png" alt="SecRandom" />'
     title: 一句话随机抽人
     details: '<span class="feature-prompts"><span>“抽个人回答问题”</span></span>'
-  - icon: '<img class="feature-icon-single" src="/SecScore.png" alt="SecScore" />'
+  - icon: '<img class="feature-icon-single" src="./SecScore.png" alt="SecScore" />'
     title: 课堂积分操作
     details: '<span class="feature-prompts"><span>“给张三加两份，昨天主动帮忙值日”</span></span><span class="feature-note">———— 自动调用积分软件操作分数并填写对应理由</span>'
 ---
