@@ -52,6 +52,11 @@
     scroll-snap-type: y mandatory;
   }
 
+  .VPContent.is-home {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
   .VPHome .home-section {
     scroll-margin-top: var(--vp-nav-height);
     scroll-snap-align: start;
