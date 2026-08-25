@@ -58,7 +58,7 @@
 }
 
 .VPHero .text {
-  max-width: 780px;
+  max-width: 1000px;
   font-size: clamp(2.8rem, 6vw, 5.6rem);
   line-height: 1.02;
   letter-spacing: -0.06em;

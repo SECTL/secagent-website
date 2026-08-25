@@ -5,7 +5,7 @@ titleTemplate: 专注智教场景的 AI Agent
 description: 专注智教场景的 AI Agent，联动 ClassIsland、SecRandom、Class Widgets、ICC-CE 等现有应用，实现课表、点名、画板、积分软件的全链路打通。
 hero:
   name: SecAgent
-  text: 从传统电教，走向 <span class="hero-gradient-purple">AI</span> 赋能的 <span class="hero-gradient-purple">智慧教育</span>
+  text: 从传统电教，走向<br /><span class="hero-gradient-purple">AI</span> 赋能的<br /><span class="hero-gradient-purple">智慧教育</span>
   tagline: 专注智教场景的 AI Agent，联动 ClassIsland、SecRandom、Class Widgets、ICC-CE 等现有应用，实现课表/点名/画板/积分软件全链路打通
   image:
     src: /icon.png
