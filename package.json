@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vitepress dev docs",
+    "dev": "node scripts/dev-server.mjs",
     "docs:build": "vitepress build docs",
     "build": "npm run docs:build",
     "preview": "vitepress preview docs"

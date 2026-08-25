@@ -9,6 +9,12 @@ export default defineConfig({
   base: isGitHubActions ? '/secagent-website/' : '/',
   cleanUrls: true,
   lastUpdated: true,
+  vite: {
+    server: {
+      port: 45396,
+      strictPort: true
+    }
+  },
   head: [
     ['meta', { name: 'theme-color', content: '#08111f' }],
     ['link', { rel: 'icon', href: '/icon.png' }]
