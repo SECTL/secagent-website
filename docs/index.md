@@ -13,7 +13,7 @@ hero:
   actions:
     - theme: brand
       text: 开始使用
-      link: /guide/quickstart
+      link: '#quick-start'
 features:
   - icon: '<span class="feature-icon-pair"><img src="./classisland-icon.png" alt="ClassIsland" /><img src="./cw-icon.png" alt="Class Widgets" /></span>'
     title: 课表软件联动
@@ -29,82 +29,78 @@ features:
     details: '<span class="feature-prompts"><span>“给张三加两份，昨天主动帮忙值日”</span></span><span class="feature-note">———— 自动调用积分软件操作分数并填写对应理由</span>'
 ---
 
-<section class="home-section">
-  <div class="home-kicker">Agent runtime</div>
-  <h2>不是聊天窗口，而是一条能落地的执行链。</h2>
-  <div class="home-copy">SecAgent 将模型、工具、插件和工作区组织在一起。每一步都能被看见，每一个扩展点都能被替换。</div>
-  <div class="signal-grid">
-    <div class="signal-card">
-      <h3>从意图到结果</h3>
-      <div class="card-copy">把复杂的教育场景操作拆成清晰的 Agent 流程。</div>
-      <div class="trace">
-        <div class="trace-row">
-          <span class="trace-index">01</span>
-          <span class="trace-label">自然语言输入</span>
-          <span class="trace-detail">“查询李明当前积分”</span>
+<section id="quick-start" class="home-section quick-start-section">
+  <div class="home-kicker">Quick start</div>
+  <h2>三步开始使用 SecAgent。</h2>
+  <div class="home-copy">先下载客户端，再准备账号或模型服务配置，最后打开软件开始你的第一句话。</div>
+  <div class="quick-start-steps">
+    <article class="quick-start-step">
+      <div class="quick-start-step-number">01</div>
+      <div class="quick-start-step-content">
+        <h3>下载安装包</h3>
+        <p class="quick-start-description">选择你的操作系统。正式 Release 发布前，普通下载按钮暂不可用。</p>
+        <div class="download-grid">
+          <div class="download-platform">
+            <h4>Windows</h4>
+            <div class="download-actions">
+              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用">绿色版</button>
+              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用">安装包</button>
+            </div>
+          </div>
+          <div class="download-platform">
+            <h4>Linux</h4>
+            <div class="download-actions">
+              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用">绿色版</button>
+              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用">安装包</button>
+            </div>
+          </div>
+          <div class="download-platform">
+            <h4>macOS</h4>
+            <div class="download-actions">
+              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用">绿色版</button>
+              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用">安装包</button>
+            </div>
+          </div>
         </div>
-        <div class="trace-row">
-          <span class="trace-index">02</span>
-          <span class="trace-label">模型理解意图</span>
-          <span class="trace-detail">选择合适的工具</span>
-        </div>
-        <div class="trace-row">
-          <span class="trace-index">03</span>
-          <span class="trace-label">工具返回结果</span>
-          <span class="trace-detail">可追踪、可审计</span>
+        <a class="ci-download-link" href="https://github.com/SECTL/SecAgent/actions/workflows/build.yml" target="_blank" rel="noopener noreferrer">
+          <span class="vpi-social-github" aria-hidden="true"></span>
+          <span>下载 CI 构建</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </article>
+    <article class="quick-start-step">
+      <div class="quick-start-step-number">02</div>
+      <div class="quick-start-step-content">
+        <h3>准备账号或模型配置</h3>
+        <p class="quick-start-description">根据你的使用方式，准备 SECTL 账号，或者填写自定义 LLM 供应商信息。</p>
+        <div class="quick-start-options">
+          <div class="quick-start-option">
+            <h4>使用 SECTL 账号</h4>
+            <p>趁等待客户端下载的时间，前往 SECTL 登录或注册账号。</p>
+            <a class="quick-start-link" href="https://sectl.cn/" target="_blank" rel="noopener noreferrer">前往 SECTL 登录 / 注册 →</a>
+          </div>
+          <div class="quick-start-option">
+            <h4>使用自定义 LLM</h4>
+            <p>提前准备供应商的端点、API Key、模型名称等配置信息。</p>
+            <span class="config-hint">Endpoint · API Key · Model</span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="command-card">
-      <h3>从 CLI 开始</h3>
-      <div class="card-copy">几条命令启动一个工作区，保留每次交互的会话上下文。</div>
-      <div class="command-code">npm install<br />npm run build:cli<br />node dist/index.js init --workspace ./demo-workspace<br />node dist/index.js run &quot;查询李明当前积分&quot; \<br />&nbsp;&nbsp;--workspace ./demo-workspace</div>
-      <div class="link-row">
-        <a href="/guide/quickstart">快速开始 →</a>
-        <a href="/reference/cli">CLI 参考</a>
+    </article>
+    <article class="quick-start-step">
+      <div class="quick-start-step-number">03</div>
+      <div class="quick-start-step-content">
+        <h3>打开软件，开始使用</h3>
+        <p class="quick-start-description">启动 SecAgent，完成首次配置，然后直接输入自然语言指令，让 Agent 帮你完成课堂操作。</p>
+        <div class="launch-flow">
+          <span>打开 SecAgent</span>
+          <span aria-hidden="true">→</span>
+          <span>完成配置</span>
+          <span aria-hidden="true">→</span>
+          <span>输入第一句话</span>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="home-section">
-  <div class="home-kicker">Built to connect</div>
-  <h2>把已有的优秀工具，接入同一套 Agent 体验。</h2>
-  <div class="home-copy">SecAgent 不替代你的业务系统。它负责理解用户表达、协调工具执行，并把结果带回一个连续的工作区。</div>
-  <div class="architecture-grid">
-    <div class="architecture-card">
-      <span class="number">01 / HOST</span>
-      <h3>桌面端 &amp; CLI</h3>
-      <div class="card-copy">在对话界面或终端中输入自然语言，持续复用同一份会话记录。</div>
-    </div>
-    <div class="architecture-card">
-      <span class="number">02 / EXTENSION</span>
-      <h3>插件 &amp; Skill</h3>
-      <div class="card-copy">把领域规则、操作流程和业务约束写成可发现、可复用的能力。</div>
-    </div>
-    <div class="architecture-card">
-      <span class="number">03 / TOOLING</span>
-      <h3>MCP &amp; 本地工具</h3>
-      <div class="card-copy">连接 SecScore、班级软件或任何符合约定的本地与远程工具服务。</div>
-    </div>
-  </div>
-  <div class="home-callout">
-    <div>
-      <h3>准备把你的工具交给 Agent？</h3>
-      <div class="card-copy">从插件清单、Skill frontmatter 和 MCP 接口约定开始。</div>
-    </div>
-    <div class="link-row">
-      <a href="/guide/plugins">阅读插件文档 →</a>
-    </div>
-  </div>
-</section>
-
-<section class="home-section">
-  <div class="home-kicker">Open source</div>
-  <h2>和项目一起，把“会操作”做得更可靠。</h2>
-  <div class="home-copy">SecAgent 正在持续连接更多教育工具与真实工作流。欢迎在 GitHub 查看源码、提交 Issue，或贡献一个插件。</div>
-  <div class="link-row">
-    <a href="https://github.com/SECTL/SecAgent">打开 SecAgent 仓库 →</a>
-    <a href="https://github.com/SECTL">浏览 SECTL 组织</a>
+    </article>
   </div>
 </section>
