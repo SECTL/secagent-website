@@ -64,6 +64,14 @@
   letter-spacing: -0.06em;
 }
 
+.VPHero .text .hero-gradient-purple {
+  background: linear-gradient(120deg, #8b5cf6 12%, #c084fc 54%, #f0abfc 92%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
 .VPHero .tagline {
   max-width: 660px;
   font-size: 1.17rem;

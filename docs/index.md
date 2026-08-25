@@ -2,11 +2,11 @@
 layout: home
 title: SecAgent
 titleTemplate: 专注智教场景的 AI Agent
-description: 把自然语言连接到可审计、可扩展的工具调用，让一句话成为一次完整的操作。
+description: 专注智教场景的 AI Agent，联动 ClassIsland、SecRandom、Class Widgets、ICC-CE 等现有应用，实现课表、点名、画板、积分软件的全链路打通。
 hero:
   name: SecAgent
-  text: 让一句话，成为一次完整的操作
-  tagline: 专注智教场景的 AI Agent。连接桌面端、CLI、MCP 与 Skill，把自然语言变成可理解、可追踪、可扩展的执行流程。
+  text: 从传统电教，走向 <span class="hero-gradient-purple">AI</span> 赋能的 <span class="hero-gradient-purple">智慧教育</span>
+  tagline: 专注智教场景的 AI Agent，联动 ClassIsland、SecRandom、Class Widgets、ICC-CE 等现有应用，实现课表/点名/画板/积分软件全链路打通
   image:
     src: /icon.png
     alt: SecAgent logo
