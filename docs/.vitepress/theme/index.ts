@@ -23,10 +23,21 @@ function keepHomeFeaturesAboveDoc() {
         return
       }
 
-      if (window.innerWidth < 960 || window.scrollY > 2) {
+      if (window.scrollY > 2) {
+        return
+      }
+
+      if (window.innerWidth < 960) {
+        home?.classList.remove('home-features-overflowing')
         content.style.removeProperty('margin-top')
         return
       }
+
+      const features = home?.querySelector('.VPHomeFeatures')
+      const overflowing = Boolean(
+        features && features.getBoundingClientRect().bottom > window.innerHeight - 12
+      )
+      home?.classList.toggle('home-features-overflowing', overflowing)
 
       content.style.removeProperty('margin-top')
       const gap = Math.max(0, window.innerHeight - content.getBoundingClientRect().top)

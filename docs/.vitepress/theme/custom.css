@@ -271,6 +271,58 @@
   }
 }
 
+@media (min-width: 960px) {
+  .VPHome.home-features-overflowing .VPHero {
+    padding-top: 72px !important;
+    padding-bottom: 46px !important;
+  }
+
+  .VPHome.home-features-overflowing .VPHero .tagline {
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+
+  .VPHome.home-features-overflowing .VPHomeFeatures {
+    padding-top: 10px;
+  }
+
+  .VPHome.home-features-overflowing .VPHomeFeatures .VPFeature .box {
+    padding-top: 10px;
+    padding-bottom: 8px;
+  }
+
+  .VPHome.home-features-overflowing .VPHomeFeatures .VPFeature .icon {
+    height: 46px;
+    min-height: 46px;
+    margin-bottom: 6px;
+  }
+
+  .VPHome.home-features-overflowing .VPHomeFeatures .feature-icon-pair img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .VPHome.home-features-overflowing .VPHomeFeatures .feature-icon-single {
+    width: 46px;
+    height: 46px;
+  }
+
+  .VPHome.home-features-overflowing .VPHomeFeatures .VPFeature .title {
+    font-size: 1.25rem;
+    line-height: 1.25;
+  }
+
+  .VPHome.home-features-overflowing .VPHomeFeatures .VPFeature .details {
+    margin-top: 4px;
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  .VPHome.home-features-overflowing .VPHomeFeatures .feature-note {
+    font-size: 0.88rem;
+  }
+}
+
 .home-section {
   position: relative;
   max-width: 1152px;
