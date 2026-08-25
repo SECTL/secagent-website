@@ -15,18 +15,18 @@ hero:
       text: 开始使用
       link: /guide/quickstart
 features:
-  - icon: ⚡
-    title: 自然语言驱动
-    details: 从一句话开始，让 Agent 理解意图并组织工具调用，减少重复的界面操作。
-  - icon: 🧩
-    title: 插件化扩展
-    details: 用插件、Skill 和 MCP 接入已有应用，把每个专业工具变成 Agent 能力。
-  - icon: 🛡️
-    title: 过程可追踪
-    details: 思考片段、工具调用、返回结果和会话记录都有迹可循，适合真实业务落地。
-  - icon: ↔
-    title: 桌面端与 CLI
-    details: 桌面端负责日常交互，CLI 适合自动化与调试，两者共享同一套会话运行时。
+  - icon: '<span class="feature-icon-pair"><img src="/classisland-icon.png" alt="ClassIsland" /><img src="/cw-icon.png" alt="Class Widgets" /></span>'
+    title: 课表软件联动
+    details: '<span class="feature-prompts"><span>“明天数学课跟音乐课换了”</span><span>“下节课是啥”</span></span>'
+  - icon: '<img class="feature-icon-single" src="/iccce-logo.png" alt="ICC-CE" />'
+    title: 批注画板操作
+    details: '<span class="feature-prompts"><span>“将杜甫的基本信息插入画板”</span><span>“将圆柱和圆锥的面积公式插入画板”</span></span>'
+  - icon: '<img class="feature-icon-single" src="/secrandom-logo.png" alt="SecRandom" />'
+    title: 一句话随机抽人
+    details: '<span class="feature-prompts"><span>“抽个人回答问题”</span></span>'
+  - icon: '<img class="feature-icon-single" src="/SecScore.png" alt="SecScore" />'
+    title: 课堂积分操作
+    details: '<span class="feature-prompts"><span>“给张三加两份，昨天主动帮忙值日”</span></span><span class="feature-note">———— 自动调用积分软件操作分数并填写对应理由</span>'
 ---
 
 <section class="home-section">
