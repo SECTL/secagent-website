@@ -46,6 +46,19 @@
     radial-gradient(circle at 10% 18%, rgba(114, 219, 192, 0.12), transparent 22rem);
 }
 
+@media (min-width: 960px) {
+  html:has(.VPContent.is-home) {
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+  }
+
+  .VPHome .home-section {
+    scroll-margin-top: var(--vp-nav-height);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+
 .VPHero {
   padding-top: 116px !important;
   padding-bottom: 82px !important;
