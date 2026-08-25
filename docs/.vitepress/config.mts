@@ -64,15 +64,61 @@ export default defineConfig({
         }
       ]
     },
-    outline: { level: [2, 3] },
+    outline: { level: [2, 3], label: '本页目录' },
+    darkModeSwitchLabel: '外观',
+    lightModeSwitchTitle: '切换到浅色模式',
+    darkModeSwitchTitle: '切换到深色模式',
+    sidebarMenuLabel: '菜单',
+    returnToTopLabel: '返回顶部',
+    langMenuLabel: '切换语言',
+    skipToContentLabel: '跳转到正文',
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/SECTL/SecAgent' }
+      { icon: 'github', link: 'https://github.com/SECTL/SecAgent', ariaLabel: 'GitHub 仓库' }
     ],
     footer: {
       message: 'SecAgent · 专注智教场景的 AI Agent',
       copyright: 'Copyright © 2026 SECTL'
     },
-    search: { provider: 'local' },
+    search: {
+      provider: 'local',
+      options: {
+        translations: {
+          button: {
+            buttonText: '搜索',
+            buttonAriaLabel: '搜索'
+          },
+          modal: {
+            displayDetails: '显示详细结果',
+            resetButtonTitle: '重置搜索',
+            backButtonTitle: '关闭搜索',
+            noResultsText: '没有找到与',
+            footer: {
+              selectText: '选择',
+              selectKeyAriaLabel: '回车',
+              navigateText: '移动',
+              navigateUpKeyAriaLabel: '向上箭头',
+              navigateDownKeyAriaLabel: '向下箭头',
+              closeText: '关闭',
+              closeKeyAriaLabel: 'Esc'
+            }
+          }
+        }
+      }
+    },
+    notFound: {
+      title: '页面不存在',
+      quote: '你访问的页面可能已经移动，或者链接地址有误。',
+      linkLabel: '返回首页',
+      linkText: '返回首页'
+    },
+    lastUpdated: {
+      text: '最后更新于',
+      formatOptions: {
+        forceLocale: true,
+        dateStyle: 'short',
+        timeStyle: 'short'
+      }
+    },
     editLink: {
       pattern: 'https://github.com/SECTL/secagent-website/edit/master/docs/:path',
       text: '在 GitHub 上编辑此页'
