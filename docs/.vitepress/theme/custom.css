@@ -140,9 +140,9 @@
 }
 
 .VPHomeFeatures .items {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
   margin: 0;
 }
 
@@ -237,6 +237,18 @@
   margin-top: 2px;
   color: var(--vp-c-text-2);
   font-size: 0.82rem;
+}
+
+@media (min-width: 768px) {
+  .VPHomeFeatures .items > .item {
+    width: 48%;
+    align-self: flex-start;
+  }
+
+  .VPHomeFeatures .items > .item:nth-child(even) {
+    align-self: flex-end;
+    margin-top: -24px;
+  }
 }
 
 .home-section {
