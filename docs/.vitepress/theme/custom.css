@@ -135,7 +135,8 @@
 }
 
 .VPHomeFeatures .container {
-  max-width: none;
+  margin: 0 auto;
+  max-width: 1152px;
 }
 
 .VPHomeFeatures .items {
