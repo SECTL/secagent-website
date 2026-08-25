@@ -58,10 +58,22 @@
 }
 
 .VPHero .text {
-  max-width: 1000px;
+  max-width: none;
   font-size: clamp(2.8rem, 6vw, 5.6rem);
   line-height: 1.02;
   letter-spacing: -0.06em;
+}
+
+@media (min-width: 960px) {
+  .VPHero.has-image .main {
+    max-width: 760px;
+  }
+
+  .VPHero .text {
+    max-width: none;
+    font-size: clamp(3rem, 5vw, 5rem);
+    white-space: nowrap;
+  }
 }
 
 .VPHero .text .hero-gradient-purple {
