@@ -14,9 +14,6 @@ hero:
     - theme: brand
       text: 开始使用
       link: /guide/quickstart
-    - theme: alt
-      text: 查看 GitHub
-      link: https://github.com/SECTL/SecAgent
 features:
   - icon: ⚡
     title: 自然语言驱动

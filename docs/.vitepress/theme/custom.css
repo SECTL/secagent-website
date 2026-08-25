@@ -97,13 +97,14 @@
 }
 
 .VPHero .actions .VPButton {
-  border-radius: 12px;
+  border-radius: 999px;
   padding: 0 22px;
   font-weight: 650;
 }
 
 .VPButton.brand {
-  background: linear-gradient(135deg, #507fff, #6b9dff);
+  background: #507fff;
+  background-image: none;
   border-color: transparent;
   box-shadow: 0 10px 24px rgba(71, 119, 239, 0.24);
 }
