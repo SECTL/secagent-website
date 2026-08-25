@@ -247,7 +247,7 @@
 
   .VPHomeFeatures .items > .item:nth-child(even) {
     align-self: flex-end;
-    margin-top: -24px;
+    margin-top: -48px;
   }
 }
 
