@@ -553,12 +553,22 @@
   transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
 }
 
+a.ci-download-link,
+a.ci-download-link:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+a.ci-download-link > * {
+  color: inherit;
+}
+
 .ci-download-link:hover,
 .quick-start-link:hover {
   color: var(--vp-c-brand-3);
 }
 
-.ci-download-link:hover {
+a.ci-download-link:hover {
   border-color: var(--vp-c-brand-2);
   background: var(--vp-c-brand-2);
   color: #fff;
