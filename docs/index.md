@@ -33,32 +33,37 @@ features:
   <div class="home-kicker">Quick start</div>
   <h2>三步开始使用 SecAgent。</h2>
   <div class="home-copy">先下载客户端，再准备账号或模型服务配置，最后打开软件开始你的第一句话。</div>
-  <div class="quick-start-steps">
-    <article class="quick-start-step">
-      <div class="quick-start-step-number">01</div>
-      <div class="quick-start-step-content">
-        <h3><i class="fa-solid fa-download step-title-icon" aria-hidden="true"></i>下载安装包</h3>
-        <p class="quick-start-description">选择你的操作系统。正式 Release 发布前，普通下载按钮暂不可用。</p>
-        <div class="download-grid">
-          <div class="download-platform">
-            <h4><i class="fa-brands fa-windows platform-icon" aria-hidden="true"></i><span>Windows</span></h4>
-            <div class="download-actions">
-              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>绿色版</span></button>
-              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>安装包</span></button>
-            </div>
+    <div class="quick-start-steps">
+      <article class="quick-start-step download-step">
+        <div class="quick-start-step-number">01</div>
+        <div class="quick-start-step-content">
+          <div class="download-step-intro">
+            <h3><i class="fa-solid fa-download step-title-icon" aria-hidden="true"></i>下载安装包</h3>
+            <p class="quick-start-description">首先，选择适合您的平台和打包方式。正式 Release 发布前，普通下载按钮暂不可用。</p>
           </div>
-          <div class="download-platform">
-            <h4><i class="fa-brands fa-linux platform-icon" aria-hidden="true"></i><span>Linux</span></h4>
-            <div class="download-actions">
-              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>绿色版</span></button>
-              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>安装包</span></button>
+          <div class="download-grid">
+            <div class="download-platform">
+              <h4><i class="fa-brands fa-windows platform-icon" aria-hidden="true"></i><span>Windows</span></h4>
+              <p class="platform-description">Windows 10 及更高版本</p>
+              <div class="download-actions">
+                <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>绿色版</span></button>
+                <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>安装包</span></button>
             </div>
-          </div>
-          <div class="download-platform">
-            <h4><i class="fa-brands fa-apple platform-icon" aria-hidden="true"></i><span>macOS</span></h4>
-            <div class="download-actions">
-              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>绿色版</span></button>
-              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>安装包</span></button>
+            </div>
+            <div class="download-platform">
+              <h4><i class="fa-brands fa-linux platform-icon" aria-hidden="true"></i><span>Linux</span></h4>
+              <p class="platform-description">Debian 10 或其衍生版</p>
+              <div class="download-actions">
+                <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>绿色版</span></button>
+                <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>安装包</span></button>
+            </div>
+            </div>
+            <div class="download-platform">
+              <h4><i class="fa-brands fa-apple platform-icon" aria-hidden="true"></i><span>macOS</span></h4>
+              <p class="platform-description">macOS Big Sur 11 及更高版本</p>
+              <div class="download-actions">
+                <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>绿色版</span></button>
+                <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>安装包</span></button>
             </div>
           </div>
         </div>
