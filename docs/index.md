@@ -37,33 +37,34 @@ features:
     <article class="quick-start-step">
       <div class="quick-start-step-number">01</div>
       <div class="quick-start-step-content">
-        <h3>下载安装包</h3>
+        <h3><i class="fa-solid fa-download step-title-icon" aria-hidden="true"></i>下载安装包</h3>
         <p class="quick-start-description">选择你的操作系统。正式 Release 发布前，普通下载按钮暂不可用。</p>
         <div class="download-grid">
           <div class="download-platform">
-            <h4>Windows</h4>
+            <h4><i class="fa-brands fa-windows platform-icon" aria-hidden="true"></i><span>Windows</span></h4>
             <div class="download-actions">
-              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用">绿色版</button>
-              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用">安装包</button>
+              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>绿色版</span></button>
+              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>安装包</span></button>
             </div>
           </div>
           <div class="download-platform">
-            <h4>Linux</h4>
+            <h4><i class="fa-brands fa-linux platform-icon" aria-hidden="true"></i><span>Linux</span></h4>
             <div class="download-actions">
-              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用">绿色版</button>
-              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用">安装包</button>
+              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>绿色版</span></button>
+              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>安装包</span></button>
             </div>
           </div>
           <div class="download-platform">
-            <h4>macOS</h4>
+            <h4><i class="fa-brands fa-apple platform-icon" aria-hidden="true"></i><span>macOS</span></h4>
             <div class="download-actions">
-              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用">绿色版</button>
-              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用">安装包</button>
+              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>绿色版</span></button>
+              <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>安装包</span></button>
             </div>
           </div>
         </div>
         <a class="ci-download-link" href="https://github.com/SECTL/SecAgent/actions/workflows/build.yml" target="_blank" rel="noopener noreferrer">
-          <span class="vpi-social-github" aria-hidden="true"></span>
+          <i class="fa-solid fa-diamond ci-special-icon" aria-hidden="true"></i>
+          <i class="fa-brands fa-github" aria-hidden="true"></i>
           <span>下载 CI 构建</span>
           <span aria-hidden="true">↗</span>
         </a>
@@ -72,7 +73,7 @@ features:
     <article class="quick-start-step">
       <div class="quick-start-step-number">02</div>
       <div class="quick-start-step-content">
-        <h3>准备账号或模型配置</h3>
+        <h3><i class="fa-solid fa-user step-title-icon" aria-hidden="true"></i>准备账号或模型配置</h3>
         <p class="quick-start-description">根据你的使用方式，准备 SECTL 账号，或者填写自定义 LLM 供应商信息。</p>
         <div class="quick-start-options">
           <div class="quick-start-option">
@@ -80,6 +81,7 @@ features:
             <p>趁等待客户端下载的时间，前往 SECTL 登录或注册账号。</p>
             <a class="quick-start-link" href="https://sectl.cn/" target="_blank" rel="noopener noreferrer">前往 SECTL 登录 / 注册 →</a>
           </div>
+          <div class="quick-start-divider">如果您有自定义LLM</div>
           <div class="quick-start-option">
             <h4>使用自定义 LLM</h4>
             <p>提前准备供应商的端点、API Key、模型名称等配置信息。</p>
@@ -91,7 +93,7 @@ features:
     <article class="quick-start-step">
       <div class="quick-start-step-number">03</div>
       <div class="quick-start-step-content">
-        <h3>打开软件，开始使用</h3>
+        <h3><i class="fa-solid fa-circle-check step-title-icon" aria-hidden="true"></i>打开软件，开始使用</h3>
         <p class="quick-start-description">启动 SecAgent，完成首次配置，然后直接输入自然语言指令，让 Agent 帮你完成课堂操作。</p>
         <div class="launch-flow">
           <span>打开 SecAgent</span>
