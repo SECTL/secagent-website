@@ -526,7 +526,9 @@
 
 .download-step .ci-download-link {
   justify-content: center;
-  width: 100%;
+  width: fit-content;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .ci-download-link,
@@ -541,9 +543,26 @@
   text-decoration: none;
 }
 
+.ci-download-link {
+  min-height: 42px;
+  padding: 0 17px;
+  border: 1px solid var(--vp-c-brand-1);
+  border-radius: 999px;
+  background: var(--vp-c-brand-1);
+  color: #fff;
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
 .ci-download-link:hover,
 .quick-start-link:hover {
   color: var(--vp-c-brand-3);
+}
+
+.ci-download-link:hover {
+  border-color: var(--vp-c-brand-2);
+  background: var(--vp-c-brand-2);
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 .ci-download-link .vpi-social-github {
@@ -552,11 +571,6 @@
 
 .ci-download-link .fa-github {
   font-size: 1.15rem;
-}
-
-.ci-download-link .ci-special-icon {
-  color: var(--vp-c-brand-1);
-  font-size: 0.9rem;
 }
 
 .quick-start-options {

@@ -68,8 +68,7 @@ features:
           </div>
         </div>
         <a class="ci-download-link" href="https://github.com/SECTL/SecAgent/actions/workflows/build.yml" target="_blank" rel="noopener noreferrer">
-          <i class="fa-solid fa-diamond ci-special-icon" aria-hidden="true"></i>
-          <i class="fa-brands fa-github" aria-hidden="true"></i>
+            <i class="fa-brands fa-github" aria-hidden="true"></i>
           <span>下载 CI 构建</span>
           <span aria-hidden="true">↗</span>
         </a>
