@@ -24,7 +24,7 @@ export default defineConfig({
     siteTitle: 'SecAgent',
     nav: [
       { text: '首页', link: '/' },
-      { text: '快速开始', link: '/guide/quickstart' },
+      { text: '快速开始', link: '/#quick-start' },
       { text: '文档', link: '/guide/desktop' },
       { text: '插件生态', link: '/guide/plugins' },
       {
