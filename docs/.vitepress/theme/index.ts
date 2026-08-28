@@ -310,6 +310,87 @@ function setupHomeViewportSnap() {
     return target > 2 && Math.abs(window.scrollY - target) <= 8
   }
 
+  const isQuickStartAnchorLink = (link: Element) => {
+    if (link.hasAttribute('download') || link.hasAttribute('target')) {
+      return false
+    }
+
+    const href = link.getAttribute('href')
+
+    if (!href) {
+      return false
+    }
+
+    let url: URL
+
+    try {
+      url = new URL(href, link.baseURI)
+    } catch {
+      return false
+    }
+
+    // Only take over in-page anchors: the hero "开始使用" button and the nav
+    // "快速开始" link both resolve to #quick-start on the home page.
+    return (
+      url.origin === window.location.origin &&
+      url.pathname === window.location.pathname &&
+      url.search === window.location.search &&
+      url.hash === '#quick-start'
+    )
+  }
+
+  const onQuickStartAnchorClick = (event: MouseEvent) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return
+    }
+
+    const element = event.target instanceof Element ? event.target : null
+    const link = element?.closest('a')
+
+    if (!link || !isQuickStartAnchorLink(link)) {
+      return
+    }
+
+    const context = getHomeContext()
+
+    if (!context) {
+      return
+    }
+
+    // VitePress's own click handler (registered before this one) has already
+    // preventDefaulted the link and queued an instant jump to the anchor for
+    // the next frame. Re-assert the pre-click position in that same frame —
+    // before paint — and animate the transition with the same easing as the
+    // wheel/keyboard snap.
+    const restoreY = window.scrollY
+    const quickStart = context.quickStart
+
+    window.requestAnimationFrame(() => {
+      const liveContext = getHomeContext()
+
+      if (!liveContext || liveContext.quickStart !== quickStart) {
+        return
+      }
+
+      window.scrollTo({ top: restoreY, left: 0, behavior: 'auto' })
+
+      if (isDesktopHome()) {
+        startScrollAnimation(getSecondScreenTop(liveContext.quickStart))
+        return
+      }
+
+      // Below the snap breakpoint there is no JS scroll loop that could fight
+      // touch input, so hand the transition to the browser's smooth scroll.
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+      window.scrollTo({
+        top: getSecondScreenTop(liveContext.quickStart),
+        left: 0,
+        behavior: reducedMotion ? 'auto' : 'smooth'
+      })
+    })
+  }
+
   const isDownKey = (key: string) =>
     key === 'ArrowDown' || key === 'PageDown' || key === ' ' || key === 'End'
 
@@ -457,6 +538,7 @@ function setupHomeViewportSnap() {
 
   window.addEventListener('wheel', onWheel, { capture: true, passive: false })
   window.addEventListener('keydown', onKeyDown, { capture: true })
+  window.addEventListener('click', onQuickStartAnchorClick, { capture: true })
   window.addEventListener('touchstart', onTouchStart, { capture: true, passive: true })
   window.addEventListener('touchmove', onTouchMove, { capture: true, passive: false })
   window.addEventListener('touchend', onTouchEnd, { capture: true, passive: true })
