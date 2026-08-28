@@ -49,9 +49,14 @@
 }
 
 @media (min-width: 960px) {
-  html:has(.VPContent.is-home) {
-    scroll-behavior: smooth;
+  html:has(.VPContent.is-home).home-snap-enabled {
+    scroll-behavior: auto;
     scroll-snap-type: y mandatory;
+    scroll-padding-top: 0;
+  }
+
+  html:has(.VPContent.is-home).home-snap-enabled.home-snap-animating {
+    scroll-snap-type: none;
   }
 
   .VPContent.is-home {
@@ -274,54 +279,228 @@
 }
 
 @media (min-width: 960px) {
-  .VPHome.home-features-overflowing .VPHero {
-    padding-top: 72px !important;
-    padding-bottom: 46px !important;
+  /* Keep the hero and features as one exact viewport-sized first screen. */
+  .VPHome {
+    --home-features-height: clamp(292px, 37vh, 520px);
+    --home-features-height: clamp(292px, 37dvh, 520px);
+    margin-bottom: 0;
   }
 
-  .VPHome.home-features-overflowing .VPHero .tagline {
-    font-size: 1.05rem;
+  .VPHome .VPHomeHero {
+    height: calc(100vh - var(--home-features-height));
+    height: calc(100dvh - var(--home-features-height));
+    min-height: 0;
+    padding-top: clamp(64px, 9.7dvh, 116px) !important;
+    padding-bottom: clamp(28px, 6.8dvh, 82px) !important;
+  }
+
+  .VPHome .VPHomeHero .text {
+    font-size: clamp(3rem, min(5vw, 8vh), 5rem);
+  }
+
+  .VPHome .VPHomeHero .tagline {
+    font-size: clamp(0.95rem, min(1.17rem, 2.5vh), 1.17rem);
+    line-height: 1.55;
+  }
+
+  .VPHome .VPHomeFeatures {
+    display: block;
+    height: var(--home-features-height);
+    min-height: 0;
+    padding-top: clamp(12px, 2.2dvh, 26px) !important;
+    padding-bottom: clamp(16px, 3.4dvh, 42px);
+  }
+
+  .VPHomeFeatures .container,
+  .VPHomeFeatures .items {
+    height: 100%;
+  }
+
+  .VPHomeFeatures .items {
+    align-content: space-between;
+  }
+
+  .VPHomeFeatures .VPFeature .box {
+    padding: clamp(8px, 1.7dvh, 20px) clamp(16px, 2.5vw, 38px) clamp(8px, 1.5dvh, 18px);
+  }
+
+  .VPHomeFeatures .VPFeature .icon {
+    height: clamp(40px, 5.3dvh, 56px);
+    min-height: clamp(40px, 5.3dvh, 56px);
+    margin-bottom: clamp(4px, 1dvh, 10px);
+  }
+
+  .VPHomeFeatures .feature-icon-pair img {
+    width: clamp(36px, 4.5dvh, 48px);
+    height: clamp(36px, 4.5dvh, 48px);
+  }
+
+  .VPHomeFeatures .feature-icon-single {
+    width: clamp(40px, 5.3dvh, 56px);
+    height: clamp(40px, 5.3dvh, 56px);
+  }
+
+  .VPHomeFeatures .VPFeature .title {
+    font-size: clamp(1.05rem, 2.1dvh, 1.35rem);
+    line-height: 1.3;
+  }
+
+  .VPHomeFeatures .VPFeature .details {
+    font-size: clamp(0.88rem, 1.8dvh, 1.05rem);
     line-height: 1.5;
   }
 
-  .VPHome.home-features-overflowing .VPHomeFeatures {
-    padding-top: 10px;
+  .VPHomeFeatures .feature-note {
+    font-size: clamp(0.78rem, 1.6dvh, 0.94rem);
   }
 
-  .VPHome.home-features-overflowing .VPHomeFeatures .VPFeature .box {
-    padding-top: 10px;
-    padding-bottom: 8px;
+  /* A single compact row keeps all four features visible in short or
+     unusually narrow desktop viewports, where two rows cannot fit. */
+  .VPHome.home-features-compact {
+    --home-features-height: clamp(320px, 42vh, 480px);
+    --home-features-height: clamp(320px, 42dvh, 480px);
   }
 
-  .VPHome.home-features-overflowing .VPHomeFeatures .VPFeature .icon {
+  .VPHome.home-features-compact .VPHomeHero {
+    padding-top: clamp(58px, 8dvh, 96px) !important;
+    padding-bottom: clamp(24px, 5.4dvh, 64px) !important;
+  }
+
+  .VPHome.home-features-compact .VPHomeHero .name,
+  .VPHome.home-features-compact .VPHomeHero .text {
+    font-size: clamp(2.6rem, min(4.8vw, 7vh), 4.8rem) !important;
+    line-height: 1.02;
+  }
+
+  .VPHome.home-features-compact .VPHomeHero .tagline {
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  .VPHome.home-features-compact .VPHomeFeatures {
+    padding-top: 18px !important;
+    padding-bottom: 28px;
+  }
+
+  .VPHome.home-features-compact .VPHomeFeatures .VPFeature .box {
+    padding: 10px 28px 8px;
+  }
+
+  .VPHome.home-features-compact .VPHomeFeatures .VPFeature .icon {
     height: 46px;
     min-height: 46px;
     margin-bottom: 6px;
   }
 
-  .VPHome.home-features-overflowing .VPHomeFeatures .feature-icon-pair img {
+  .VPHome.home-features-compact .VPHomeFeatures .feature-icon-pair img {
     width: 40px;
     height: 40px;
   }
 
-  .VPHome.home-features-overflowing .VPHomeFeatures .feature-icon-single {
+  .VPHome.home-features-compact .VPHomeFeatures .feature-icon-single {
     width: 46px;
     height: 46px;
   }
 
-  .VPHome.home-features-overflowing .VPHomeFeatures .VPFeature .title {
-    font-size: 1.25rem;
+  .VPHome.home-features-compact .VPHomeFeatures .VPFeature .title {
+    font-size: 1.2rem;
     line-height: 1.25;
   }
 
-  .VPHome.home-features-overflowing .VPHomeFeatures .VPFeature .details {
+  .VPHome.home-features-compact .VPHomeFeatures .VPFeature .details {
     margin-top: 4px;
-    font-size: 1rem;
-    line-height: 1.45;
+    font-size: 0.95rem;
+    line-height: 1.4;
   }
 
-  .VPHome.home-features-overflowing .VPHomeFeatures .feature-note {
-    font-size: 0.88rem;
+  .VPHome.home-features-compact .VPHomeFeatures .feature-note {
+    font-size: 0.84rem;
+  }
+
+  .VPHome.home-features-tight {
+    --home-features-height: clamp(220px, 36vh, 270px);
+    --home-features-height: clamp(220px, 36dvh, 270px);
+  }
+
+  .VPHome.home-features-tight .VPHomeHero {
+    padding-top: clamp(44px, 7dvh, 72px) !important;
+    padding-bottom: clamp(20px, 4.8dvh, 46px) !important;
+  }
+
+  .VPHome.home-features-tight .VPHomeHero .name,
+  .VPHome.home-features-tight .VPHomeHero .text {
+    font-size: clamp(2.1rem, min(4.2vw, 5.6vh), 3.6rem) !important;
+    line-height: 1.02;
+  }
+
+  .VPHome.home-features-tight .VPHomeHero .tagline {
+    padding-top: 4px;
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+
+  .VPHome.home-features-tight .VPHomeHero .actions {
+    padding-top: 12px;
+  }
+
+  .VPHome.home-features-tight .VPHomeFeatures {
+    padding-top: 12px !important;
+    padding-bottom: 16px;
+  }
+
+  .VPHome.home-features-tight .VPHomeFeatures .items {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    align-content: center;
+  }
+
+  .VPHome.home-features-tight .VPHomeFeatures .items > .item {
+    width: 100%;
+  }
+
+  .VPHome.home-features-tight .VPHomeFeatures .VPFeature .box {
+    padding: 0 6px;
+  }
+
+  .VPHome.home-features-tight .VPHomeFeatures .VPFeature .icon {
+    height: 36px;
+    min-height: 36px;
+    margin-bottom: 3px;
+  }
+
+  .VPHome.home-features-tight .VPHomeFeatures .feature-icon-pair {
+    gap: 4px;
+  }
+
+  .VPHome.home-features-tight .VPHomeFeatures .feature-icon-pair img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .VPHome.home-features-tight .VPHomeFeatures .feature-icon-single {
+    width: 36px;
+    height: 36px;
+  }
+
+  .VPHome.home-features-tight .VPHomeFeatures .VPFeature .title {
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .VPHome.home-features-tight .VPHomeFeatures .VPFeature .details {
+    margin-top: 3px;
+    font-size: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .VPHome.home-features-tight .VPHomeFeatures .feature-prompts {
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .VPHome.home-features-tight .VPHomeFeatures .feature-note {
+    margin-top: 1px;
+    font-size: 0.68rem;
   }
 }
 
