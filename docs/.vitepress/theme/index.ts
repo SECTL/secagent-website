@@ -102,6 +102,9 @@ function setupHomeViewportSnap() {
   let touchStartY: number | null = null
   let touchDirectionHandled = false
   let anchorNavigationPending = window.location.hash.length > 0
+  let downwardMomentumGuardTimer = 0
+  let downwardMomentumGuardDeadline = 0
+  let downwardMomentumGuardActive = false
 
   // Do not let Chrome restore a previous scroll position after the home page
   // has mounted. VitePress handles explicit hash navigation separately.
@@ -150,6 +153,48 @@ function setupHomeViewportSnap() {
     )
   }
 
+  const clearDownwardMomentumGuard = () => {
+    window.clearTimeout(downwardMomentumGuardTimer)
+    downwardMomentumGuardTimer = 0
+    downwardMomentumGuardDeadline = 0
+    downwardMomentumGuardActive = false
+  }
+
+  const armDownwardMomentumGuard = () => {
+    downwardMomentumGuardActive = true
+    downwardMomentumGuardDeadline = performance.now() + 720
+    window.clearTimeout(downwardMomentumGuardTimer)
+    downwardMomentumGuardTimer = window.setTimeout(clearDownwardMomentumGuard, 180)
+  }
+
+  const consumeDownwardMomentumGuard = () => {
+    if (!downwardMomentumGuardActive) {
+      return false
+    }
+
+    if (performance.now() >= downwardMomentumGuardDeadline) {
+      clearDownwardMomentumGuard()
+      return false
+    }
+
+    window.clearTimeout(downwardMomentumGuardTimer)
+    downwardMomentumGuardTimer = window.setTimeout(clearDownwardMomentumGuard, 180)
+    return true
+  }
+
+  const completeScrollAnimation = () => {
+    const arrivedAtSecondScreen = isAnimating && animationTarget > animationStartY
+    window.scrollTo({ top: animationTarget, left: 0, behavior: 'auto' })
+
+    if (arrivedAtSecondScreen) {
+      // Consume the tail of the wheel/touch gesture that initiated the
+      // transition. It prevents a strong swipe from leaking past screen two.
+      armDownwardMomentumGuard()
+    }
+
+    finishAnimation()
+  }
+
   const finishAnimation = () => {
     cancelAnimationFrame(animationFrame)
     window.clearTimeout(animationTimeout)
@@ -167,6 +212,7 @@ function setupHomeViewportSnap() {
     // animation before handing control back to the user's gesture.
     const currentY = window.scrollY
     finishAnimation()
+    clearDownwardMomentumGuard()
     window.scrollTo({ top: currentY, left: 0, behavior: 'auto' })
   }
 
@@ -182,8 +228,7 @@ function setupHomeViewportSnap() {
     window.scrollTo({ top: nextPosition, left: 0, behavior: 'auto' })
 
     if (progress >= 1) {
-      window.scrollTo({ top: animationTarget, left: 0, behavior: 'auto' })
-      finishAnimation()
+      completeScrollAnimation()
       return
     }
 
@@ -216,8 +261,7 @@ function setupHomeViewportSnap() {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     if (reducedMotion) {
-      window.scrollTo({ top: target, left: 0, behavior: 'auto' })
-      finishAnimation()
+      completeScrollAnimation()
       return
     }
 
@@ -227,8 +271,7 @@ function setupHomeViewportSnap() {
         return
       }
 
-      window.scrollTo({ top: animationTarget, left: 0, behavior: 'auto' })
-      finishAnimation()
+      completeScrollAnimation()
     }, 1200)
   }
 
@@ -297,6 +340,17 @@ function setupHomeViewportSnap() {
       return
     }
 
+    if (downwardMomentumGuardActive && isAtSecondScreen()) {
+      if (event.deltaY > 0 && consumeDownwardMomentumGuard()) {
+        event.preventDefault()
+        return
+      }
+
+      if (event.deltaY < 0) {
+        clearDownwardMomentumGuard()
+      }
+    }
+
     if (window.scrollY <= 2 && event.deltaY > 0) {
       event.preventDefault()
       scrollToSecondScreen()
@@ -319,6 +373,17 @@ function setupHomeViewportSnap() {
         scrollToSecondScreen()
       }
       return
+    }
+
+    if (downwardMomentumGuardActive && isAtSecondScreen()) {
+      if (isDownKey(event.key) && consumeDownwardMomentumGuard()) {
+        event.preventDefault()
+        return
+      }
+
+      if (isUpKey(event.key)) {
+        clearDownwardMomentumGuard()
+      }
     }
 
     if (window.scrollY <= 2 && isDownKey(event.key)) {
@@ -347,6 +412,17 @@ function setupHomeViewportSnap() {
 
     const currentY = event.touches[0]?.clientY ?? touchStartY
     const deltaY = touchStartY - currentY
+
+    if (downwardMomentumGuardActive && isAtSecondScreen()) {
+      if (deltaY > 8 && consumeDownwardMomentumGuard()) {
+        event.preventDefault()
+        return
+      }
+
+      if (deltaY < -8) {
+        clearDownwardMomentumGuard()
+      }
+    }
 
     if (isAnimating) {
       if (deltaY < -8) {
