@@ -51,23 +51,11 @@
 @media (min-width: 960px) {
   html:has(.VPContent.is-home).home-snap-enabled {
     scroll-behavior: auto;
-    scroll-snap-type: y mandatory;
     scroll-padding-top: 0;
   }
 
   html:has(.VPContent.is-home).home-snap-enabled.home-snap-animating {
-    scroll-snap-type: none;
-  }
-
-  .VPContent.is-home {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
-
-  .VPHome .home-section {
-    scroll-margin-top: var(--vp-nav-height);
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+    overflow-anchor: none;
   }
 }
 
@@ -284,6 +272,7 @@
     --home-features-height: clamp(292px, 37vh, 520px);
     --home-features-height: clamp(292px, 37dvh, 520px);
     margin-bottom: 0;
+    padding-bottom: 0;
   }
 
   .VPHome .VPHomeHero {
@@ -354,8 +343,8 @@
     font-size: clamp(0.78rem, 1.6dvh, 0.94rem);
   }
 
-  /* A single compact row keeps all four features visible in short or
-     unusually narrow desktop viewports, where two rows cannot fit. */
+  /* Use a little more vertical room on short desktop viewports while keeping
+     the feature grid in the same readable two-row structure. */
   .VPHome.home-features-compact {
     --home-features-height: clamp(320px, 42vh, 480px);
     --home-features-height: clamp(320px, 42dvh, 480px);
@@ -415,92 +404,6 @@
 
   .VPHome.home-features-compact .VPHomeFeatures .feature-note {
     font-size: 0.84rem;
-  }
-
-  .VPHome.home-features-tight {
-    --home-features-height: clamp(220px, 36vh, 270px);
-    --home-features-height: clamp(220px, 36dvh, 270px);
-  }
-
-  .VPHome.home-features-tight .VPHomeHero {
-    padding-top: clamp(44px, 7dvh, 72px) !important;
-    padding-bottom: clamp(20px, 4.8dvh, 46px) !important;
-  }
-
-  .VPHome.home-features-tight .VPHomeHero .name,
-  .VPHome.home-features-tight .VPHomeHero .text {
-    font-size: clamp(2.1rem, min(4.2vw, 5.6vh), 3.6rem) !important;
-    line-height: 1.02;
-  }
-
-  .VPHome.home-features-tight .VPHomeHero .tagline {
-    padding-top: 4px;
-    font-size: 0.9rem;
-    line-height: 1.35;
-  }
-
-  .VPHome.home-features-tight .VPHomeHero .actions {
-    padding-top: 12px;
-  }
-
-  .VPHome.home-features-tight .VPHomeFeatures {
-    padding-top: 12px !important;
-    padding-bottom: 16px;
-  }
-
-  .VPHome.home-features-tight .VPHomeFeatures .items {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 10px;
-    align-content: center;
-  }
-
-  .VPHome.home-features-tight .VPHomeFeatures .items > .item {
-    width: 100%;
-  }
-
-  .VPHome.home-features-tight .VPHomeFeatures .VPFeature .box {
-    padding: 0 6px;
-  }
-
-  .VPHome.home-features-tight .VPHomeFeatures .VPFeature .icon {
-    height: 36px;
-    min-height: 36px;
-    margin-bottom: 3px;
-  }
-
-  .VPHome.home-features-tight .VPHomeFeatures .feature-icon-pair {
-    gap: 4px;
-  }
-
-  .VPHome.home-features-tight .VPHomeFeatures .feature-icon-pair img {
-    width: 32px;
-    height: 32px;
-  }
-
-  .VPHome.home-features-tight .VPHomeFeatures .feature-icon-single {
-    width: 36px;
-    height: 36px;
-  }
-
-  .VPHome.home-features-tight .VPHomeFeatures .VPFeature .title {
-    font-size: 1rem;
-    line-height: 1.2;
-  }
-
-  .VPHome.home-features-tight .VPHomeFeatures .VPFeature .details {
-    margin-top: 3px;
-    font-size: 0.75rem;
-    line-height: 1.3;
-  }
-
-  .VPHome.home-features-tight .VPHomeFeatures .feature-prompts {
-    flex-direction: column;
-    gap: 1px;
-  }
-
-  .VPHome.home-features-tight .VPHomeFeatures .feature-note {
-    margin-top: 1px;
-    font-size: 0.68rem;
   }
 }
 

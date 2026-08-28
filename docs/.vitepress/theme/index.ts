@@ -34,11 +34,12 @@ function syncHomeFirstScreenLayout() {
         return
       }
 
-      // Try the spacious layout first, then progressively tighten only when
-      // the rendered hero or features really overflows its viewport slot.
-      // This avoids locking a tall viewport into the tiny single-row layout.
+      // Try the spacious layout first, then use the two-column compact layout
+      // only when the rendered content really overflows its viewport slot.
+      // Feature cards must remain in two rows; a single row creates a large
+      // empty area between the hero and the cards on wide screens.
       const pass = ++layoutPass
-      const modes = ['', 'home-features-compact', 'home-features-tight']
+      const modes = ['', 'home-features-compact']
       let modeIndex = 0
 
       const tryMode = () => {
@@ -100,6 +101,10 @@ function setupHomeViewportSnap() {
   let animationStartedAt = 0
   let touchStartY: number | null = null
 
+  // Do not let Chrome restore a previous scroll position after the home page
+  // has mounted. VitePress handles explicit hash navigation separately.
+  window.history.scrollRestoration = 'manual'
+
   const getHomeContext = () => {
     const content = document.querySelector<HTMLElement>('.VPContent.is-home')
     const features = content?.querySelector<HTMLElement>('.VPHomeFeatures')
@@ -137,7 +142,11 @@ function setupHomeViewportSnap() {
     const isFirstScreen = window.scrollY <= 2
     const isAtOrAfterSecondScreen = window.scrollY >= secondScreenTop - 2
 
-    root.classList.toggle('home-snap-enabled', isFirstScreen && !isAtOrAfterSecondScreen)
+    const hasExplicitAnchor = window.location.hash.length > 0
+    root.classList.toggle(
+      'home-snap-enabled',
+      isFirstScreen && !isAtOrAfterSecondScreen && !hasExplicitAnchor
+    )
   }
 
   const finishAnimation = () => {
@@ -318,6 +327,7 @@ function setupHomeViewportSnap() {
     }
     syncSnapScope()
   }, { passive: true })
+  window.addEventListener('hashchange', syncSnapScope)
 
   let homeWasMounted = false
   const syncHomeEntry = () => {
