@@ -100,6 +100,8 @@ function setupHomeViewportSnap() {
   let animationStartY = 0
   let animationStartedAt = 0
   let touchStartY: number | null = null
+  let touchDirectionHandled = false
+  let anchorNavigationPending = window.location.hash.length > 0
 
   // Do not let Chrome restore a previous scroll position after the home page
   // has mounted. VitePress handles explicit hash navigation separately.
@@ -142,10 +144,9 @@ function setupHomeViewportSnap() {
     const isFirstScreen = window.scrollY <= 2
     const isAtOrAfterSecondScreen = window.scrollY >= secondScreenTop - 2
 
-    const hasExplicitAnchor = window.location.hash.length > 0
     root.classList.toggle(
       'home-snap-enabled',
-      isFirstScreen && !isAtOrAfterSecondScreen && !hasExplicitAnchor
+      isFirstScreen && !isAtOrAfterSecondScreen && !anchorNavigationPending
     )
   }
 
@@ -189,20 +190,24 @@ function setupHomeViewportSnap() {
     animationFrame = requestAnimationFrame(runScrollAnimation)
   }
 
-  const scrollToSecondScreen = () => {
-    const context = getHomeContext()
+  const startScrollAnimation = (target: number) => {
+    const currentY = window.scrollY
 
-    if (!context || !isDesktopHome() || window.scrollY > 2 || isAnimating) {
+    if (Math.abs(target - currentY) <= 2) {
+      window.scrollTo({ top: target, left: 0, behavior: 'auto' })
+      finishAnimation()
       return
     }
 
-    const target = getSecondScreenTop(context.quickStart)
-
-    if (target <= 2) {
+    // Repeated wheel/touch events must not restart the same transition. A
+    // change of target, however, intentionally reverses the current motion.
+    if (isAnimating && Math.abs(animationTarget - target) <= 2) {
       return
     }
 
-    animationStartY = window.scrollY
+    cancelAnimationFrame(animationFrame)
+    window.clearTimeout(animationTimeout)
+    animationStartY = currentY
     animationTarget = target
     animationStartedAt = performance.now()
     isAnimating = true
@@ -227,6 +232,41 @@ function setupHomeViewportSnap() {
     }, 1200)
   }
 
+  const scrollToSecondScreen = () => {
+    const context = getHomeContext()
+
+    if (!context || !isDesktopHome() || (!isAnimating && window.scrollY > 2)) {
+      return
+    }
+
+    const target = getSecondScreenTop(context.quickStart)
+
+    if (target <= 2) {
+      return
+    }
+
+    startScrollAnimation(target)
+  }
+
+  const scrollToFirstScreen = () => {
+    if (!isDesktopHome()) {
+      return
+    }
+
+    startScrollAnimation(0)
+  }
+
+  const isAtSecondScreen = () => {
+    const context = getHomeContext()
+
+    if (!context || !isDesktopHome()) {
+      return false
+    }
+
+    const target = getSecondScreenTop(context.quickStart)
+    return target > 2 && Math.abs(window.scrollY - target) <= 8
+  }
+
   const isDownKey = (key: string) =>
     key === 'ArrowDown' || key === 'PageDown' || key === ' ' || key === 'End'
 
@@ -247,14 +287,12 @@ function setupHomeViewportSnap() {
     }
 
     if (isAnimating) {
-      if (event.deltaY < -1) {
-        // Give control back to the user's upward gesture at the current
-        // position instead of forcing another jump to the first screen.
-        cancelAnimation()
-      } else if (event.deltaY > 0) {
-        // Keep repeated downward wheel ticks from pushing past the target
-        // while the first-screen transition is still in progress.
+      if (event.deltaY < 0) {
         event.preventDefault()
+        scrollToFirstScreen()
+      } else if (event.deltaY > 0) {
+        event.preventDefault()
+        scrollToSecondScreen()
       }
       return
     }
@@ -262,6 +300,9 @@ function setupHomeViewportSnap() {
     if (window.scrollY <= 2 && event.deltaY > 0) {
       event.preventDefault()
       scrollToSecondScreen()
+    } else if (isAtSecondScreen() && event.deltaY < 0) {
+      event.preventDefault()
+      scrollToFirstScreen()
     }
   }
 
@@ -271,10 +312,11 @@ function setupHomeViewportSnap() {
     }
 
     if (isAnimating) {
+      event.preventDefault()
       if (isUpKey(event.key)) {
-        cancelAnimation()
+        scrollToFirstScreen()
       } else if (isDownKey(event.key)) {
-        event.preventDefault()
+        scrollToSecondScreen()
       }
       return
     }
@@ -282,15 +324,24 @@ function setupHomeViewportSnap() {
     if (window.scrollY <= 2 && isDownKey(event.key)) {
       event.preventDefault()
       scrollToSecondScreen()
+    } else if (isAtSecondScreen() && isUpKey(event.key)) {
+      event.preventDefault()
+      scrollToFirstScreen()
     }
   }
 
   const onTouchStart = (event: TouchEvent) => {
     touchStartY = event.touches[0]?.clientY ?? null
+    touchDirectionHandled = false
   }
 
   const onTouchMove = (event: TouchEvent) => {
     if (touchStartY === null || !isDesktopHome()) {
+      return
+    }
+
+    if (touchDirectionHandled) {
+      event.preventDefault()
       return
     }
 
@@ -299,7 +350,13 @@ function setupHomeViewportSnap() {
 
     if (isAnimating) {
       if (deltaY < -8) {
-        cancelAnimation()
+        event.preventDefault()
+        touchDirectionHandled = true
+        scrollToFirstScreen()
+      } else if (deltaY > 8) {
+        event.preventDefault()
+        touchDirectionHandled = true
+        scrollToSecondScreen()
       } else {
         event.preventDefault()
       }
@@ -308,12 +365,18 @@ function setupHomeViewportSnap() {
 
     if (window.scrollY <= 2 && deltaY > 8) {
       event.preventDefault()
+      touchDirectionHandled = true
       scrollToSecondScreen()
+    } else if (isAtSecondScreen() && deltaY < -8) {
+      event.preventDefault()
+      touchDirectionHandled = true
+      scrollToFirstScreen()
     }
   }
 
   const onTouchEnd = () => {
     touchStartY = null
+    touchDirectionHandled = false
   }
 
   window.addEventListener('wheel', onWheel, { capture: true, passive: false })
@@ -322,12 +385,19 @@ function setupHomeViewportSnap() {
   window.addEventListener('touchmove', onTouchMove, { capture: true, passive: false })
   window.addEventListener('touchend', onTouchEnd, { capture: true, passive: true })
   window.addEventListener('scroll', () => {
+    if (window.scrollY > 2) {
+      anchorNavigationPending = false
+    }
+
     if (!isDesktopHome() && isAnimating) {
       cancelAnimation()
     }
     syncSnapScope()
   }, { passive: true })
-  window.addEventListener('hashchange', syncSnapScope)
+  window.addEventListener('hashchange', () => {
+    anchorNavigationPending = window.location.hash.length > 0
+    syncSnapScope()
+  })
 
   let homeWasMounted = false
   const syncHomeEntry = () => {
