@@ -1,0 +1,62 @@
+name: Deploy site to server
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-server
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build VitePress site
+        env:
+          # The server serves the site at the domain root, unlike GitHub Pages
+          # which lives under /secagent-website/. See docs/.vitepress/config.mts.
+          VITEPRESS_BASE: /
+        run: npm run docs:build
+
+      - name: Setup SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SERVER_SSH_KNOWN_HOSTS }}
+        run: |
+          install -m 600 /dev/null ~/.ssh/id_ed25519
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+
+      - name: Rsync site to server
+        run: |
+          rsync -az --delete \
+            docs/.vitepress/dist/ \
+            root@159.195.70.108:/var/www/secagent-website/
+
+      - name: Verify site is served
+        run: |
+          for attempt in 1 2 3 4 5; do
+            status=$(curl -s -o /dev/null -w '%{http_code}' http://159.195.70.108:45372/ || true)
+            if [ "$status" = "200" ]; then
+              echo "Site is up (HTTP $status)"
+              exit 0
+            fi
+            echo "Attempt $attempt: HTTP $status, retrying in 5s..."
+            sleep 5
+          done
+          echo "Site did not return HTTP 200 after deployment"
+          exit 1

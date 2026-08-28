@@ -2,11 +2,16 @@ import { defineConfig } from 'vitepress'
 
 const isGitHubActions = process.env.GITHUB_ACTIONS === 'true'
 
+// GitHub Pages serves the site under /secagent-website/, while the dedicated
+// server deployment serves it at the domain root. The server workflow sets
+// VITEPRESS_BASE=/ to override the Pages sub-path base.
+const base = process.env.VITEPRESS_BASE || (isGitHubActions ? '/secagent-website/' : '/')
+
 export default defineConfig({
   lang: 'zh-CN',
   title: 'SecAgent',
   description: '专注智教场景的 AI Agent，把自然语言连接到可审计、可扩展的工具调用。',
-  base: isGitHubActions ? '/secagent-website/' : '/',
+  base,
   cleanUrls: true,
   lastUpdated: true,
   vite: {
