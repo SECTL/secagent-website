@@ -25,6 +25,6 @@ npm run preview
 推送到 `master` 分支后会触发两条部署流水线：
 
 - `.github/workflows/deploy.yml`：构建并发布到 GitHub Pages：<https://sectl.github.io/secagent-website/>
-- `.github/workflows/deploy-server.yml`：构建并以 `VITEPRESS_BASE=/` 部署（rsync）到自建服务器 `159.195.70.108:45372`，站点根目录为服务器上的 `/var/www/secagent-website`，由 nginx 提供静态服务
+- `.github/workflows/deploy-server.yml`：构建并以 `VITEPRESS_BASE=/` 部署到自建服务器 `159.195.70.108`，每个 commit 使用独立 release 并原子切换 `/var/www/secagent-website`，由 nginx 在 `45372` 端口提供静态服务
 
 服务器部署使用仓库 secrets 中的专用 SSH 密钥（`SERVER_SSH_PRIVATE_KEY` / `SERVER_SSH_KNOWN_HOSTS`），密钥对的本地备份位于开发机 `~/.ssh/secagent-website-deploy`。

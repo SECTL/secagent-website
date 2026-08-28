@@ -1,4 +1,4 @@
-name: Deploy site to server
+name: Deploy SecAgent website
 
 on:
   push:
@@ -6,58 +6,69 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: deploy-server
+  group: deploy-secagent-website
   cancel-in-progress: false
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+permissions:
+  contents: read
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+jobs:
+  verify-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      DEPLOY_HOST: 159.195.70.108
+      DEPLOY_PORT: "22"
+      DEPLOY_USER: root
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 22
+          node-version: "22"
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build VitePress site
+      - name: Verify and build site
         env:
-          # The server serves the site at the domain root, unlike GitHub Pages
-          # which lives under /secagent-website/. See docs/.vitepress/config.mts.
           VITEPRESS_BASE: /
-        run: npm run docs:build
+        run: |
+          npm ci --ignore-scripts
+          npm run docs:build
+          test -f docs/.vitepress/dist/index.html
 
-      - name: Setup SSH key
+      - name: Configure SSH
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
           SSH_KNOWN_HOSTS: ${{ secrets.SERVER_SSH_KNOWN_HOSTS }}
         run: |
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          install -m 600 /dev/null ~/.ssh/id_ed25519
+          test -n "$SSH_PRIVATE_KEY" && test -n "$SSH_KNOWN_HOSTS"
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          umask 077
           printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
           printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          ssh-keygen -y -f ~/.ssh/id_ed25519 >/dev/null
 
-      - name: Rsync site to server
+      - name: Upload and activate immutable release
         run: |
-          rsync -az --delete \
+          release_path="/opt/secagent-website/releases/${GITHUB_SHA}"
+          ssh_cmd="ssh -i ~/.ssh/id_ed25519 -p $DEPLOY_PORT -o StrictHostKeyChecking=yes -o ConnectTimeout=20"
+          ssh -i ~/.ssh/id_ed25519 -p "$DEPLOY_PORT" -o StrictHostKeyChecking=yes \
+            "$DEPLOY_USER@$DEPLOY_HOST" \
+            "install -d -o root -g root -m 0755 '$release_path' /opt/secagent-website/deploy"
+          rsync -az --delete --chmod=D755,F644 \
+            -e "$ssh_cmd" \
             docs/.vitepress/dist/ \
-            root@159.195.70.108:/var/www/secagent-website/
+            "$DEPLOY_USER@$DEPLOY_HOST:$release_path/"
+          rsync -az --delete --chmod=D755,F755 \
+            -e "$ssh_cmd" \
+            deploy/ \
+            "$DEPLOY_USER@$DEPLOY_HOST:/opt/secagent-website/deploy/"
+          ssh -i ~/.ssh/id_ed25519 -p "$DEPLOY_PORT" -o StrictHostKeyChecking=yes \
+            "$DEPLOY_USER@$DEPLOY_HOST" \
+            "bash /opt/secagent-website/deploy/activate-release.sh '$release_path'"
 
-      - name: Verify site is served
+      - name: Verify site from server
         run: |
-          for attempt in 1 2 3 4 5; do
-            status=$(curl -s -o /dev/null -w '%{http_code}' http://159.195.70.108:45372/ || true)
-            if [ "$status" = "200" ]; then
-              echo "Site is up (HTTP $status)"
-              exit 0
-            fi
-            echo "Attempt $attempt: HTTP $status, retrying in 5s..."
-            sleep 5
-          done
-          echo "Site did not return HTTP 200 after deployment"
-          exit 1
+          ssh -i ~/.ssh/id_ed25519 -p "$DEPLOY_PORT" -o StrictHostKeyChecking=yes \
+            "$DEPLOY_USER@$DEPLOY_HOST" \
+            "curl --fail --silent --show-error --max-time 10 http://127.0.0.1:45372/ | grep -q 'SecAgent'"
