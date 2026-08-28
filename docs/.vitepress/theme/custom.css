@@ -269,8 +269,8 @@
 @media (min-width: 960px) {
   /* Keep the hero and features as one exact viewport-sized first screen. */
   .VPHome {
-    --home-features-height: clamp(292px, 37vh, 520px);
-    --home-features-height: clamp(292px, 37dvh, 520px);
+    --home-features-height: clamp(360px, 43vh, 560px);
+    --home-features-height: clamp(360px, 43dvh, 560px);
     margin-bottom: 0;
     padding-bottom: 0;
   }
