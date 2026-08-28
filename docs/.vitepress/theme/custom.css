@@ -269,8 +269,8 @@
 @media (min-width: 960px) {
   /* Keep the hero and features as one exact viewport-sized first screen. */
   .VPHome {
-    --home-features-height: clamp(360px, 43vh, 560px);
-    --home-features-height: clamp(360px, 43dvh, 560px);
+    --home-features-height: clamp(320px, 46vh, 560px);
+    --home-features-height: clamp(320px, 46dvh, 560px);
     margin-bottom: 0;
     padding-bottom: 0;
   }
@@ -297,7 +297,7 @@
     height: var(--home-features-height);
     min-height: 0;
     padding-top: clamp(12px, 2.2dvh, 26px) !important;
-    padding-bottom: clamp(16px, 3.4dvh, 42px);
+    padding-bottom: clamp(28px, 5.8dvh, 72px);
   }
 
   .VPHomeFeatures .container,
@@ -346,8 +346,8 @@
   /* Use a little more vertical room on short desktop viewports while keeping
      the feature grid in the same readable two-row structure. */
   .VPHome.home-features-compact {
-    --home-features-height: clamp(320px, 42vh, 480px);
-    --home-features-height: clamp(320px, 42dvh, 480px);
+    --home-features-height: clamp(320px, 48vh, 520px);
+    --home-features-height: clamp(320px, 48dvh, 520px);
   }
 
   .VPHome.home-features-compact .VPHomeHero {
@@ -368,7 +368,7 @@
 
   .VPHome.home-features-compact .VPHomeFeatures {
     padding-top: 18px !important;
-    padding-bottom: 28px;
+    padding-bottom: clamp(28px, 5.8dvh, 64px);
   }
 
   .VPHome.home-features-compact .VPHomeFeatures .VPFeature .box {
