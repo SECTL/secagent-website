@@ -30,13 +30,14 @@ export default defineConfig({
     nav: [
       { text: '首页', link: '/' },
       { text: '快速开始', link: '/#quick-start' },
-      { text: '文档', link: '/guide/desktop' },
-      { text: '插件生态', link: '/guide/plugins' },
+      { text: '模型服务', link: '/guide/service' },
+      { text: '开发文档', link: '/dev/plugin-development' },
       {
         text: '资源',
         items: [
-          { text: 'CLI 参考', link: '/reference/cli' },
-          { text: '架构概览', link: '/reference/architecture' },
+          { text: '官方服务说明', link: '/guide/service' },
+          { text: '自定义服务提供商', link: '/guide/custom-providers' },
+          { text: '插件开发', link: '/dev/plugin-development' },
           { text: 'GitHub', link: 'https://github.com/SECTL/SecAgent' }
         ]
       }
@@ -44,27 +45,18 @@ export default defineConfig({
     sidebar: {
       '/guide/': [
         {
-          text: '开始使用',
+          text: '模型服务',
           items: [
-            { text: '快速开始', link: '/guide/quickstart' },
-            { text: '桌面端', link: '/guide/desktop' },
-            { text: '配置模型', link: '/guide/configuration' }
-          ]
-        },
-        {
-          text: '扩展 SecAgent',
-          items: [
-            { text: '插件与 Skill', link: '/guide/plugins' },
-            { text: 'MCP 连接', link: '/guide/mcp' }
+            { text: '官方服务说明', link: '/guide/service' },
+            { text: '自定义服务提供商', link: '/guide/custom-providers' }
           ]
         }
       ],
-      '/reference/': [
+      '/dev/': [
         {
-          text: '参考',
+          text: '开发文档',
           items: [
-            { text: 'CLI 命令', link: '/reference/cli' },
-            { text: '架构概览', link: '/reference/architecture' }
+            { text: '插件开发', link: '/dev/plugin-development' }
           ]
         }
       ]
