@@ -39,40 +39,57 @@ features:
         <div class="quick-start-step-content">
           <div class="download-step-intro">
             <h3><i class="fa-solid fa-download step-title-icon" aria-hidden="true"></i>下载安装包</h3>
-            <p class="quick-start-description">首先，选择适合您的平台和打包方式。正式 Release 发布前，普通下载按钮暂不可用。</p>
+            <p class="quick-start-description">首先，选择适合您的平台和打包方式；还没有正式版时，可将版本渠道切换为测试版下载预览构建。</p>
           </div>
-          <div class="download-grid">
-            <div class="download-platform">
-              <h4><i class="fa-brands fa-windows platform-icon" aria-hidden="true"></i><span>Windows</span></h4>
-              <p class="platform-description">Windows 10 及更高版本</p>
-              <div class="download-actions">
-                <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>绿色版</span></button>
-                <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>安装包</span></button>
+          <div id="release-download">
+            <div class="release-channel-row">
+              <label class="release-channel-label" for="release-channel">版本渠道</label>
+              <select id="release-channel" class="release-channel-select">
+                <option value="stable">正式版</option>
+                <option value="prerelease">测试版（Pre-release）</option>
+              </select>
             </div>
+            <p class="release-version-note">正在获取版本信息…</p>
+            <div class="download-grid">
+              <div class="download-platform">
+                <h4><i class="fa-brands fa-windows platform-icon" aria-hidden="true"></i><span>Windows</span></h4>
+                <p class="platform-description">Windows 10 及更高版本</p>
+                <div class="download-actions">
+                  <button class="download-button is-disabled" type="button" disabled title="正式 Release 暂仅提供安装包，绿色版可通过 CI 构建下载"><i class="fa-solid fa-download" aria-hidden="true"></i><span>绿色版</span></button>
+                  <a class="download-button is-disabled" aria-disabled="true" data-release-asset="win-installer"><i class="fa-solid fa-download" aria-hidden="true"></i><span>安装包</span></a>
+                </div>
+              </div>
+              <div class="download-platform">
+                <h4><i class="fa-brands fa-linux platform-icon" aria-hidden="true"></i><span>Linux</span></h4>
+                <p class="platform-description">Debian 10 或其衍生版</p>
+                <div class="download-actions">
+                  <a class="download-button is-disabled" aria-disabled="true" data-release-asset="linux-appimage"><i class="fa-solid fa-download" aria-hidden="true"></i><span>绿色版</span></a>
+                  <a class="download-button is-disabled" aria-disabled="true" data-release-asset="linux-deb"><i class="fa-solid fa-download" aria-hidden="true"></i><span>deb</span></a>
+                  <a class="download-button is-disabled" aria-disabled="true" data-release-asset="linux-rpm"><i class="fa-solid fa-download" aria-hidden="true"></i><span>rpm</span></a>
+                </div>
+              </div>
+              <div class="download-platform">
+                <h4><i class="fa-brands fa-apple platform-icon" aria-hidden="true"></i><span>macOS</span></h4>
+                <p class="platform-description">macOS Big Sur 11 及更高版本</p>
+                <div class="download-actions">
+                  <a class="download-button is-disabled" aria-disabled="true" data-release-asset="mac-dmg"><i class="fa-solid fa-download" aria-hidden="true"></i><span>下载 dmg</span></a>
+                </div>
+              </div>
             </div>
-            <div class="download-platform">
-              <h4><i class="fa-brands fa-linux platform-icon" aria-hidden="true"></i><span>Linux</span></h4>
-              <p class="platform-description">Debian 10 或其衍生版</p>
-              <div class="download-actions">
-                <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>绿色版</span></button>
-                <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>安装包</span></button>
-            </div>
-            </div>
-            <div class="download-platform">
-              <h4><i class="fa-brands fa-apple platform-icon" aria-hidden="true"></i><span>macOS</span></h4>
-              <p class="platform-description">macOS Big Sur 11 及更高版本</p>
-              <div class="download-actions">
-                <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>绿色版</span></button>
-                <button class="download-button is-disabled" type="button" disabled title="Release 发布后可用"><i class="fa-solid fa-download" aria-hidden="true"></i><span>安装包</span></button>
-            </div>
+          </div>
+          <div class="release-links">
+            <a class="ci-download-link" href="https://github.com/SECTL/SecAgent/actions/workflows/build.yml" target="_blank" rel="noopener noreferrer">
+              <i class="fa-brands fa-github" aria-hidden="true"></i>
+              <span>下载 CI 构建</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+            <a class="ci-download-link releases-all-link" href="https://github.com/SECTL/SecAgent/releases" target="_blank" rel="noopener noreferrer">
+              <i class="fa-solid fa-box-open" aria-hidden="true"></i>
+              <span>查看全部下载</span>
+              <span aria-hidden="true">↗</span>
+            </a>
           </div>
         </div>
-        <a class="ci-download-link" href="https://github.com/SECTL/SecAgent/actions/workflows/build.yml" target="_blank" rel="noopener noreferrer">
-            <i class="fa-brands fa-github" aria-hidden="true"></i>
-          <span>下载 CI 构建</span>
-          <span aria-hidden="true">↗</span>
-        </a>
-      </div>
     </article>
     <article class="quick-start-step">
       <div class="quick-start-step-number">02</div>

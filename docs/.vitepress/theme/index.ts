@@ -651,6 +651,201 @@ function syncHomeNavigationState() {
   sync()
 }
 
+// The quick-start download card resolves assets from the GitHub Releases API.
+// "正式版" (stable) maps to the newest non-prerelease release; until the first
+// stable tag ships, stable buttons stay disabled and 测试版 (prerelease) offers
+// the newest pre-release build.
+function setupReleaseDownloads() {
+  if (typeof window === 'undefined') {
+    return
+  }
+
+  const API_URL = 'https://api.github.com/repos/SECTL/SecAgent/releases'
+  const RELEASES_PAGE_URL = 'https://github.com/SECTL/SecAgent/releases'
+  const GITHUB_UPLOAD_BASE = 'https://github.com/SECTL/SecAgent/releases/download/'
+
+  // enhanceApp runs before the Vue app mounts, so #release-download does not
+  // exist yet on the home page. Watch for it instead of reading once here.
+  let watcher: MutationObserver | null = null
+  const start = () => {
+    watcher?.disconnect()
+    watcher = null
+    if (document.getElementById('release-download')) {
+      initReleaseDownloads()
+    }
+  }
+
+  const ensureWatcher = () => {
+    if (!watcher && !document.getElementById('release-download')) {
+      watcher = new MutationObserver(start)
+      watcher.observe(document.body, { childList: true, subtree: true })
+    }
+  }
+
+  const initReleaseDownloads = () => {
+  const root = document.getElementById('release-download')
+
+  if (!root) {
+    ensureWatcher()
+    return
+  }
+
+  const channelSelect = root.querySelector<HTMLSelectElement>('.release-channel-select')
+  const versionNote = root.querySelector<HTMLElement>('.release-version-note')
+  const buttons = Array.from(root.querySelectorAll<HTMLAnchorElement>('[data-release-asset]'))
+
+  type Channel = 'stable' | 'prerelease'
+  type ReleaseInfo = { tag: string; assets: string[] }
+
+  const state: {
+    stable: ReleaseInfo | null
+    prerelease: ReleaseInfo | null
+    channel: Channel
+  } = { stable: null, prerelease: null, channel: 'stable' }
+
+  const assetMatchers: Record<string, (asset: string, tag: string) => boolean> = {
+    // The release workflow publishes the signed Inno Setup installer only;
+    // the portable (绿色版) build remains a CI artifact for now.
+    'win-installer': (asset) => /^SecAgent-Setup-.+\.exe$/i.test(asset),
+    'linux-appimage': (asset) => /^SecAgent-.+\.AppImage$/i.test(asset),
+    'linux-deb': (asset) => /^secagent_.+_amd64\.deb$/i.test(asset),
+    'linux-rpm': (asset) => /^secagent[-_.].+\.x86_64\.rpm$/i.test(asset)
+  }
+
+  const browserArch = () => {
+    const ua = navigator.userAgent
+    if (/arm64|aarch64/i.test(ua)) {
+      return 'arm64'
+    }
+    return 'x64'
+  }
+
+  const toBrowserUrl = (tag: string, asset: string) =>
+    asset.startsWith('http') ? asset : `${GITHUB_UPLOAD_BASE}${tag}/${asset}`
+
+  const disableButton = (button: HTMLAnchorElement, title: string) => {
+    button.removeAttribute('href')
+    button.setAttribute('aria-disabled', 'true')
+    button.classList.add('is-disabled')
+    button.title = title
+  }
+
+  const applyButtons = () => {
+    const release = state[state.channel]
+    const arch = browserArch()
+
+    for (const button of buttons) {
+      const kind = button.dataset.releaseAsset ?? ''
+
+      if (!release) {
+        disableButton(
+          button,
+          state.channel === 'stable' ? '还没有正式版，请切换到测试版下载' : '暂无可用的测试版构建'
+        )
+        continue
+      }
+
+      let asset: string | undefined
+
+      if (kind === 'mac-dmg') {
+        // Asset names drop the tag's leading "v" (tag v0.1.0-alpha.21 ships
+        // SecAgent-0.1.0-alpha.21.dmg). Prefer the variant matching the
+        // visitor's architecture, falling back to the other so the button
+        // always works.
+        const version = release.tag.replace(/^v/, '')
+        const arm64 = release.assets.find((n) => n === `SecAgent-${version}-arm64.dmg`)
+        const x64 = release.assets.find((n) => n === `SecAgent-${version}.dmg`)
+        asset = arch === 'arm64' ? (arm64 ?? x64) : (x64 ?? arm64)
+      } else {
+        for (const name of release.assets) {
+          if (assetMatchers[kind]?.(name, release.tag)) {
+            asset = name
+            break
+          }
+        }
+      }
+
+      if (asset) {
+        button.href = toBrowserUrl(release.tag, asset)
+        button.removeAttribute('aria-disabled')
+        button.classList.remove('is-disabled')
+        button.title = asset
+      } else {
+        disableButton(button, '该渠道暂未提供此格式')
+      }
+    }
+
+    if (versionNote) {
+      if (release) {
+        const channelLabel = state.channel === 'stable' ? '正式版' : '测试版'
+        versionNote.textContent = `当前${channelLabel}：${release.tag} · 来自 GitHub Releases`
+      } else if (state.channel === 'stable') {
+        versionNote.textContent = '正式版尚未发布，切换到上方“测试版”渠道即可下载。'
+      } else {
+        versionNote.textContent = `暂时无法获取版本信息，可前往 ${RELEASES_PAGE_URL} 查看全部版本。`
+      }
+    }
+  }
+
+  if (channelSelect) {
+    channelSelect.addEventListener('change', () => {
+      state.channel = channelSelect.value === 'prerelease' ? 'prerelease' : 'stable'
+      applyButtons()
+    })
+  }
+
+  fetch(API_URL, { headers: { Accept: 'application/vnd.github+json' } })
+    .then((response) =>
+      response.ok ? response.json() : Promise.reject(new Error(String(response.status)))
+    )
+    .then(
+      (
+        releases: Array<{
+          tag_name: string
+          prerelease: boolean
+          assets: Array<{ name: string }>
+        }>
+      ) => {
+        if (!Array.isArray(releases)) {
+          throw new Error('invalid releases payload')
+        }
+
+        // The API returns releases newest-first; keep the first (newest) of
+        // each channel.
+        for (const release of releases) {
+          const info: ReleaseInfo = {
+            tag: release.tag_name,
+            assets: release.assets.map((asset) => asset.name)
+          }
+
+          if (release.prerelease) {
+            if (!state.prerelease) {
+              state.prerelease = info
+            }
+          } else if (!state.stable) {
+            state.stable = info
+          }
+        }
+
+        applyButtons()
+      }
+    )
+    .catch(() => {
+      applyButtons()
+    })
+  }
+
+  if (document.body) {
+    start()
+    ensureWatcher()
+  } else {
+    window.addEventListener('DOMContentLoaded', () => {
+      start()
+      ensureWatcher()
+    }, { once: true })
+  }
+}
+
 const theme = {
   ...DefaultTheme,
   enhanceApp(context: Parameters<NonNullable<typeof DefaultTheme.enhanceApp>>[0]) {
@@ -658,6 +853,7 @@ const theme = {
     syncHomeFirstScreenLayout()
     setupHomeViewportSnap()
     syncHomeNavigationState()
+    setupReleaseDownloads()
   }
 }
 

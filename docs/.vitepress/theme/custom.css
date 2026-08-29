@@ -596,14 +596,96 @@
   font-weight: 650;
 }
 
-.download-button:disabled {
+/* Download buttons rendered as <a> must not pick up VitePress link styling. */
+a.download-button {
+  text-decoration: none;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+a.download-button:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
+.download-button:disabled,
+a.download-button[aria-disabled='true'] {
   cursor: not-allowed;
   opacity: 0.62;
+  pointer-events: none;
 }
 
 .download-button.is-disabled {
   border-color: color-mix(in srgb, var(--vp-c-brand-1) 32%, var(--vp-c-divider));
   background: var(--vp-c-brand-soft);
+}
+
+.release-channel-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.release-channel-label {
+  color: var(--vp-c-text-2);
+  font-size: 0.92rem;
+  font-weight: 650;
+}
+
+.release-channel-select {
+  min-height: 38px;
+  padding: 0 34px 0 14px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  background-color: var(--vp-c-bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23888' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  color: var(--vp-c-text-1);
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 650;
+  appearance: none;
+  cursor: pointer;
+}
+
+.release-channel-select:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 1px;
+}
+
+.release-version-note {
+  margin: 10px 0 0;
+  color: var(--vp-c-text-2);
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.release-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.release-links .ci-download-link {
+  margin-top: 0;
+}
+
+.release-links .releases-all-link {
+  border-color: var(--vp-c-divider);
+  background: transparent;
+  color: var(--vp-c-brand-1);
+}
+
+.release-links .releases-all-link:hover {
+  border-color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+  transform: translateY(-1px);
 }
 
 .download-step .ci-download-link {
@@ -980,6 +1062,17 @@ a.ci-download-link:hover {
   .download-actions {
     margin-top: 24px;
     padding-top: 0;
+  }
+
+  .release-channel-row,
+  .release-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .release-channel-select {
+    width: 100%;
+    max-width: 260px;
   }
 
   .download-actions .download-button {
