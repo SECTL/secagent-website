@@ -663,6 +663,7 @@ function setupReleaseDownloads() {
   const API_URL = 'https://api.github.com/repos/SECTL/SecAgent/releases'
   const RELEASES_PAGE_URL = 'https://github.com/SECTL/SecAgent/releases'
   const GITHUB_UPLOAD_BASE = 'https://github.com/SECTL/SecAgent/releases/download/'
+  const DOWNLOAD_PROXY_BASE = 'https://ghproxy.sectl.cn/'
 
   // enhanceApp runs before the Vue app mounts, so #release-download does not
   // exist yet on the home page. Watch for it instead of reading once here.
@@ -720,8 +721,10 @@ function setupReleaseDownloads() {
     return 'x64'
   }
 
-  const toBrowserUrl = (tag: string, asset: string) =>
-    asset.startsWith('http') ? asset : `${GITHUB_UPLOAD_BASE}${tag}/${asset}`
+  const toBrowserUrl = (tag: string, asset: string) => {
+    const githubUrl = asset.startsWith('http') ? asset : `${GITHUB_UPLOAD_BASE}${tag}/${asset}`
+    return `${DOWNLOAD_PROXY_BASE}${githubUrl}`
+  }
 
   const disableButton = (button: HTMLAnchorElement, title: string) => {
     button.removeAttribute('href')
